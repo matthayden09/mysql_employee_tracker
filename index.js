@@ -80,31 +80,27 @@ function employeeTracker() {
 }
 
 function viewEmployees() {
-   const query = "SELECT first_name, last_name, role_id, manager_id FROM employees";
-   connection.query(query, function (err, res) {
-    if (err) throw err;
-    console.table(res);
-  });
+    const query = "SELECT first_name, last_name, role_id, manager_id FROM employees";
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    });
 }
 
 function viewDepartments() {
-    inquirer
-        .prompt({
-            // prompt
-        })
-        .then(function (answer) {
-            // then
-        })
+    const query = "SELECT department_name FROM department";
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    });
 }
 
 function viewRoles() {
-    inquirer
-        .prompt({
-            // prompt
-        })
-        .then(function (answer) {
-            // then
-        })
+    const query = "SELECT title, salary, department_id FROM employee_role";
+    connection.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    });
 }
 
 function addEmployee() {
