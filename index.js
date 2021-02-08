@@ -80,13 +80,11 @@ function employeeTracker() {
 }
 
 function viewEmployees() {
-    inquirer
-        .prompt({
-            // prompt
-        })
-        .then(function (answer) {
-            // then
-        })
+   const query = "SELECT first_name, last_name, role_id, manager_id FROM employees";
+   connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+  });
 }
 
 function viewDepartments() {
