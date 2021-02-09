@@ -119,10 +119,16 @@ function addEmployee() {
 function addDepartment() {
     inquirer
         .prompt({
-            // prompt
+            name: "department",
+            type: "input",
+            message: "What is the name of the new department?"
         })
         .then(function (answer) {
-            // then
+            connection.query(`INSERT INTO department (department_name) VALUES ("${answer.department}")`, function (err) {
+                if (err) throw err;
+                console.table(answer)
+                employeeTracker();
+            })
         })
 }
 
