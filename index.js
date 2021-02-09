@@ -28,6 +28,7 @@ const employeeTracker = () => {
                 "Add new department",
                 "Add new role",
                 "Update employee role",
+                "Remove employee",
                 "Exit"
             ]
         })
@@ -59,6 +60,10 @@ const employeeTracker = () => {
 
                 case "Update employee role":
                     updateRole();
+                    break;
+
+                case "Remove employee":
+                    removeEmployee();
                     break;
 
                 case "Exit":
@@ -128,11 +133,13 @@ const addEmployee = () => {
                     answer.managerId
                 ], function (err) {
                     if (err) throw err;
+                    console.table(answer)
                 }
             )
-            viewEmployees()
+            // viewEmployees()
             employeeTracker()
         })
+
 }
 
 const addDepartment = () => {
@@ -146,7 +153,7 @@ const addDepartment = () => {
             connection.query("INSERT INTO department (department_name) VALUES (?)", answer.department, function (err) {
                 if (err) throw err;
                 console.table(answer)
-                viewDepartments();
+                // viewDepartments();
                 employeeTracker();
             })
         })
@@ -179,9 +186,10 @@ const addRole = () => {
                     answer.departmentId
                 ], function (err) {
                     if (err) throw err;
+                    console.table(answer)
                 }
             )
-            viewRoles()
+            // viewRoles()
             employeeTracker()
         })
 }
@@ -206,9 +214,31 @@ const updateRole = () => {
                 answer.departmentId,
             ], function (err) {
                 if (err) throw err;
+                console.table(answer)
+            }
+        )
+        // viewRoles()
+        employeeTracker()
+    })
+}
+
+const removeEmployee = () => {
+    inquirer.prompt([
+        {
+            name: "remove",
+            type: "input",
+            message: "Enter the employee's last name to be removed"
+        },
+    ]).then(answer => {
+        connection.query("DELETE FROM employees WHERE last_name= ?;",
+            [
+                answer.remove,
+            ], function (err) {
+                if (err) throw err;
+                console.table(answer)
             }
             )
-            viewRoles()
+            // viewEmployees();
             employeeTracker()
     })
 }
