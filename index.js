@@ -1,6 +1,5 @@
 const inquirer = require('inquirer')
 const mysql = require('mysql');
-const cTable = require('console.table');
 
 
 const connection = mysql.createConnection({
@@ -15,17 +14,7 @@ connection.connect(err => {
     console.log(`Connect to mysql on thread ${connection.threadId}`)
 });
 
-// console.table([
-//     {
-//       name: 'foo',
-//       age: 10
-//     }, {
-//       name: 'bar',
-//       age: 20
-//     }
-//   ]);
-
-function employeeTracker() {
+const employeeTracker = () => {
     inquirer
         .prompt({
             name: "action",
@@ -42,7 +31,7 @@ function employeeTracker() {
                 "Exit"
             ]
         })
-        .then(function (answer) {
+        .then(answer => {
             switch (answer.action) {
                 case "View all employees":
                     viewEmployees();
@@ -79,7 +68,7 @@ function employeeTracker() {
         });
 }
 
-function viewEmployees() {
+const viewEmployees = () => {
     const query = "SELECT first_name, last_name, role_id, manager_id FROM employees";
     connection.query(query, function (err, res) {
         if (err) throw err;
@@ -88,7 +77,7 @@ function viewEmployees() {
     });
 }
 
-function viewDepartments() {
+const viewDepartments = () => {
     const query = "SELECT department_name FROM department";
     connection.query(query, function (err, res) {
         if (err) throw err;
@@ -97,7 +86,7 @@ function viewDepartments() {
     });
 }
 
-function viewRoles() {
+const viewRoles = () => {
     const query = "SELECT title, salary, department_id FROM employee_role";
     connection.query(query, function (err, res) {
         if (err) throw err;
@@ -106,17 +95,41 @@ function viewRoles() {
     });
 }
 
-function addEmployee() {
-    inquirer
-        .prompt({
-            // prompt
-        })
-        .then(function (answer) {
-            // then
+const addEmployee = () => {
+    inquirer.prompt([
+        {
+            name: "firstName",
+            type: "input",
+            message: "What is the employee's first name?"
+        },
+        {
+            name: "lastName",
+            type: "input",
+            message: "What is the employee's last name?"
+        },
+        {
+            name: "roleId",
+            type: "input",
+            message: "What is the employee's role ID?"
+
+        }])
+        .then(answer => {
+            connection.query(
+                "INSERT INTO employees(first_name, last_name, role_id)VALUES (?,?,?)",
+                [
+                    answer.firstName,
+                    answer.lastName,
+                    answer.roleId
+                ], function (err, res) {
+                    if (err) throw err;
+                }
+            )
+            employeeTracker()
+            viewEmployees()
         })
 }
 
-function addDepartment() {
+const addDepartment = () => {
     inquirer
         .prompt({
             name: "department",
@@ -128,11 +141,12 @@ function addDepartment() {
                 if (err) throw err;
                 console.table(answer)
                 employeeTracker();
+                viewDepartments();
             })
         })
 }
 
-function addRole() {
+const addRole = () => {
     inquirer
         .prompt({
             // prompt
@@ -142,7 +156,7 @@ function addRole() {
         })
 }
 
-function updateRole() {
+const updateRole = () => {
     inquirer
         .prompt({
             // prompt
