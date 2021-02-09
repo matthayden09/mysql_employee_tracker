@@ -29,6 +29,8 @@ const employeeTracker = () => {
                 "Add new role",
                 "Update employee role",
                 "Remove employee",
+                "Remove department",
+                "Remove role",
                 "Exit"
             ]
         })
@@ -64,6 +66,14 @@ const employeeTracker = () => {
 
                 case "Remove employee":
                     removeEmployee();
+                    break;
+
+                case "Remove department":
+                    removeDepartment();
+                    break;
+
+                case "Remove role":
+                    removeRole();
                     break;
 
                 case "Exit":
@@ -237,9 +247,51 @@ const removeEmployee = () => {
                 if (err) throw err;
                 console.table(answer)
             }
-            )
-            // viewEmployees();
-            employeeTracker()
+        )
+        // viewEmployees();
+        employeeTracker()
+    })
+}
+
+const removeDepartment = () => {
+    inquirer.prompt([
+        {
+            name: "remove",
+            type: "input",
+            message: "Enter the name of the department to be removed"
+        },
+    ]).then(answer => {
+        connection.query("DELETE FROM department WHERE department_name= ?;",
+            [
+                answer.remove,
+            ], function (err) {
+                if (err) throw err;
+                console.table(answer)
+            }
+        )
+        // viewDepartments();
+        employeeTracker()
+    })
+}
+
+const removeRole = () => {
+    inquirer.prompt([
+        {
+            name: "remove",
+            type: "input",
+            message: "Enter the name of the role to be removed"
+        },
+    ]).then(answer => {
+        connection.query("DELETE FROM employee_role WHERE title= ?;",
+            [
+                answer.remove,
+            ], function (err) {
+                if (err) throw err;
+                console.table(answer)
+            }
+        )
+        // viewRoles();
+        employeeTracker()
     })
 }
 
