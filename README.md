@@ -17,7 +17,7 @@
 ## Usage
 ![Usage](https://github.com/matthayden09/mysql_employee_tracker/blob/main/assets/usage.png)
 
-[Link to video walkthrough](https://drive.google.com/file/d/1DwocamBO3ZBtzvpyj4UR3qA3PHiz9BVW/view)
+[Link to video walkthrough](https://drive.google.com/file/d/1Cy7XVUXHtKctiHhWF9RknKIYLsiOO_Iw/view)
     
 ## Contribution
     Contributions are welcome!
